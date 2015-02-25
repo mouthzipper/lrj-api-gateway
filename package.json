@@ -1,0 +1,22 @@
+{
+  "name": "lrj-api-gateway",
+  "version": "1.0.0",
+  "description": "API gateway for lahirajud.com clients.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lahirajudDOTcom/lrj-api-gateway.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lahirajudDOTcom/lrj-api-gateway/issues"
+  },
+  "homepage": "https://github.com/lahirajudDOTcom/lrj-api-gateway",
+  "dependencies": {
+    "hapi": "^8.2.0"
+  }
+}

@@ -1,16 +1,6 @@
-FROM centos:latest
+FROM node:0.10-onbuild
+MAINTAINER Raymond Torino <torino.raymond@gmail.com>
 
-# Enable EPEL for Node.js
-RUN curl -sL https://rpm.nodesource.com/setup | bash -
+ENV NODE_ENV docker
 
-# Install Node.js and npm
-RUN yum install -y nodejs
-
-# Bundle app source
-WORKDIR /src/lrj-api-gateway
-
-# Install app dependencies
-RUN npm install -g nodemon
-
-EXPOSE 8080
-CMD ["nodemon", "."]
+EXPOSE 3000

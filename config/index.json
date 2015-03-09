@@ -1,7 +1,7 @@
 {
 	"development": {
 		"api": {
-			"port": 8080
+			"port": 3000
 		},
 		"jwt": {
 			"privateKey": "BbZJjyoXAdr8BUZuiKKARWimKfrSmQ6fv8kZ7OFfc"

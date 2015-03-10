@@ -1,5 +1,6 @@
 'use strict';
 
+var bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 var validator = require('validator');
 
@@ -47,6 +48,24 @@ var userSchema = new Schema({
 	},
 
 	deletedAt: Date
+});
+
+userSchema.pre('save', function (next) {
+	var self = this;
+	bcrypt.genSalt(1, function (err, salt) {
+		if (err) {
+			next(err);
+		}
+
+		bcrypt.hash(self.password, salt, function (err, hash) {
+			if (err) {
+				next(err);
+			}
+
+			self.password = hash;
+			next();
+		});
+	});
 });
 
 userSchema.virtual('name.full').get(function () {

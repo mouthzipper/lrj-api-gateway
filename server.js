@@ -20,7 +20,16 @@ server.connection({
 });
 
 // Register all plugins
-var plugins = [];
+var plugins = [
+	{
+		register: require('hapi-swagger'),
+		options: {
+			apiVersion: 'v1',
+			payloadType: 'form'
+		}
+	}
+];
+
 var pluginOptions = {};
 
 server.register(plugins, pluginOptions, function (error) {

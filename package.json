@@ -4,6 +4,7 @@
   "description": "API gateway for lahirajud.com clients.",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,15 @@
     "joi": "^5.1.0",
     "mongoose": "^3.8.23",
     "validator": "^3.33.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-eslint": "^0.4.2",
+    "gulp-jscs": "^1.4.0",
+    "gulp-jshint": "^1.9.2",
+    "gulp-lintspaces": "^0.2.3",
+    "gulp-load": "^0.1.1",
+    "jshint-stylish": "^1.0.0",
+    "minimist": "^1.1.0"
   }
 }

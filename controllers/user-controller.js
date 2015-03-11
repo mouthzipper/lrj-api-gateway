@@ -67,10 +67,10 @@ module.exports = {
 				}
 
 				if ( response === true ) {
-					delete user.password;
-
 					// generate JWT
-					var token = jwt.sign(user, config[env].jwt.privateKey);
+					var token = jwt.sign({id_token: user._id}, config[env].jwt.privateKey, {
+						expiresInMinutes: 60
+					});
 
 					return reply(token);
 				} else {

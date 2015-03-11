@@ -61,22 +61,26 @@ module.exports = {
 				return reply(err);
 			}
 
-			user.verifyPassword(credentials.password, function (err, response) {
-				if (err) {
-					return reply(err);
-				}
+			if (user) {
+				user.verifyPassword(credentials.password, function (err, response) {
+					if (err) {
+						return reply(err);
+					}
 
-				if ( response === true ) {
-					// generate JWT
-					var token = jwt.sign({id_token: user._id}, config[env].jwt.privateKey, {
-						expiresInMinutes: 60
-					});
+					if ( response === true ) {
+						// generate JWT
+						var token = jwt.sign({id_token: user._id}, config[env].jwt.privateKey, {
+							expiresInMinutes: 60
+						});
 
-					return reply(token);
-				} else {
+						return reply(token);
+					} else {
+						return reply(Boom.unauthorized('login failed'));
+					}
+				});
+			} else {
 					return reply(Boom.unauthorized('login failed'));
-				}
-			});
+			}
 		});
 	}
 };

@@ -68,6 +68,12 @@ userSchema.pre('save', function (next) {
 	});
 });
 
+userSchema.methods.verifyPassword = function verifyPassword (password, cb) {
+	bcrypt.compare( password, this.password, function ( err, response ) {
+		cb( err, response );
+	} );
+};
+
 userSchema.virtual('name.full').get(function () {
 	return this.name.first + ' ' + this.name.last;
 });

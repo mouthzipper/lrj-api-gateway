@@ -1,7 +1,7 @@
 'use strict';
 
 var Joi = require('joi');
-var User = require('../models/user-model');
+var userCtrl = require('../controllers/user-controller');
 
 // User Routes
 // -----------
@@ -26,23 +26,7 @@ module.exports = [
 				}
 			},
 
-			handler: function (request, reply) {
-				request.payload.name = {
-					first: request.payload.firstName,
-					last: request.payload.lastName
-				};
-
-				User.create(request.payload, function (err, user) {
-					if (err) {
-						return reply(err);
-					} else {
-						var baseUrl = request.server.info.uri;
-						var path = request.path;
-
-						return reply().created( baseUrl + path + '/' + user._id );
-					}
-				});
-			}
+			handler: userCtrl.create.bind(userCtrl)
 		}
 	},
 
@@ -57,15 +41,26 @@ module.exports = [
 			notes: 'Returns the array of users that matched the specified filter',
 			tags: ['api', 'user', 'find'],
 
-			handler: function (request, reply) {
-				User.find(null, 'name username email', null, function (err, users) {
-					if (err) {
-						return reply(err);
-					} else {
-						return reply(users);
-					}
-				});
-			}
+			handler: userCtrl.findAll.bind(userCtrl)
+		}
+	},
+
+	{
+		method: 'POST',
+		path: '/users/login',
+		config: {
+			auth: false,
+			cors: true,
+			description: 'Log in the specified user',
+			notes: 'Returns',
+			tags: ['api', 'user', 'login'],
+			validate: {
+				payload: {
+					username: Joi.string().description('The username of the user').required(),
+					password: Joi.string().description('The password of the user').required()
+				}
+			},
+			handler: userCtrl.login.bind(userCtrl)
 		}
 	}
 ];

@@ -18,7 +18,7 @@ module.exports = [
 			tags: ['api', 'user', 'create'],
 			validate: {
 				payload: {
-					firstName: Joi.string().description('The first name of the user'),
+					sfirstName: Joi.string().description('The first name of the user'),
 					lastName: Joi.string().description('The last name of the user'),
 					username: Joi.string().description('The username of the user').required(),
 					password: Joi.string().description('The password of the user').required(),
@@ -42,6 +42,23 @@ module.exports = [
 			tags: ['api', 'user', 'find'],
 
 			handler: userCtrl.findAll.bind(userCtrl)
+		}
+	},
+
+	{
+		method: 'GET',
+		path: '/users/{id}',
+		config: {
+			auth: false,
+			description: 'Find user by ID',
+			notes: 'Returns data for the specified user ID',
+			tags: ['api', 'user', 'findById'],
+			validate: {
+				params: {
+					id: Joi.string().description('The user ID').required()
+				}
+			},
+			handler: userCtrl.findById.bind(userCtrl)
 		}
 	},
 

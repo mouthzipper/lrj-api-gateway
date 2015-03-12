@@ -48,6 +48,16 @@ module.exports = {
 		});
 	},
 
+	findById: function (request, reply) {
+		User.findOne({_id: request.params.id}, 'name username email', function (err, user) {
+			if (err) {
+				return reply(err);
+			} else {
+				return reply(user);
+			}
+		});
+	},
+
 	login: function (request, reply) {
 		var credentials = request.payload;
 		var query = normalizeCredentials(credentials);

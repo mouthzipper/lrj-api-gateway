@@ -18,7 +18,7 @@ module.exports = [
 			tags: ['api', 'user', 'create'],
 			validate: {
 				payload: {
-					sfirstName: Joi.string().description('The first name of the user'),
+					firstName: Joi.string().description('The first name of the user'),
 					lastName: Joi.string().description('The last name of the user'),
 					username: Joi.string().description('The username of the user').required(),
 					password: Joi.string().description('The password of the user').required(),
@@ -64,7 +64,7 @@ module.exports = [
 
 	{
 		method: 'POST',
-		path: '/users/login',
+		path: '/auth/login',
 		config: {
 			auth: false,
 			cors: true,

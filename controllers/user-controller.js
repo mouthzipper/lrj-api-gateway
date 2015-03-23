@@ -66,7 +66,7 @@ module.exports = {
 			return reply(Boom.badRequest('username or email is required'));
 		}
 
-		User.findOne(query, 'password', function (err, user) {
+		User.findOne(query, 'password username', function (err, user) {
 			if (err) {
 				return reply(err);
 			}
@@ -78,12 +78,14 @@ module.exports = {
 					}
 
 					if ( response === true ) {
+						user = user.toObject();
+						delete user.password;
 						// generate JWT
 						var token = jwt.sign({id_token: user._id}, config[env].jwt.privateKey, {
 							expiresInMinutes: 60
 						});
 
-						return reply(token);
+						return reply( { token : token, user: user } );
 					} else {
 						return reply(Boom.unauthorized('login failed'));
 					}

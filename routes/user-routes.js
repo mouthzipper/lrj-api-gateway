@@ -9,7 +9,7 @@ module.exports = [
 	{
 		method: 'POST',
 
-		path: '/users',
+		path: '/auth/signup',
 
 		config: {
 			auth: false,

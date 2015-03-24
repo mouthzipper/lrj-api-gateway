@@ -19,23 +19,32 @@ function normalizeCredentials (credentials) {
 	return query;
 }
 
+function createToken( userId ) {
+	return jwt.sign({ id_token: userId }, config[env].jwt.privateKey, { expiresInMinutes: 60 } );
+}
+
 module.exports = {
 	create: function (request, reply) {
 		request.payload.name = {
 			first: request.payload.firstName,
 			last: request.payload.lastName
 		};
-
-		User.create(request.payload, function (err, user) {
-			if (err) {
-				return reply(err);
-			} else {
-				var baseUrl = request.server.info.uri;
-				var path = request.path;
-
-				return reply().created( baseUrl + path + '/' + user._id );
+		User.findOne( { email : request.payload.email }, 'email', function ( err, existingUser ) {
+			if( existingUser ) {
+				reply.Boom( { message: 'Email is already taken.' } );
 			}
-		});
+			User.create(request.payload, function (err, user) {
+				if (err) {
+					return reply(err);
+				} else {
+					var baseUrl = request.server.info.uri;
+					var path = request.path;
+					var token = createToken( user._id );
+
+					return reply( { token : token, user : user } );
+				}
+			});
+		} );
 	},
 
 	findAll: function (request, reply) {
@@ -81,9 +90,7 @@ module.exports = {
 						user = user.toObject();
 						delete user.password;
 						// generate JWT
-						var token = jwt.sign({id_token: user._id}, config[env].jwt.privateKey, {
-							expiresInMinutes: 60
-						});
+						var token = createToken( user._id );
 
 						return reply( { token : token, user: user } );
 					} else {

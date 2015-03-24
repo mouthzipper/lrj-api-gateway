@@ -18,20 +18,23 @@ var postSchema = new Schema({
 
 	rank: {
 		type: Number,
-		default: -Infinity
+		default: 0
 	},
 
 	upVotes: {
-		type: Array,
-		default: []
+		type: Number,
+		default: 0
 	},
 
 	downVotes: {
-		type: Array,
-		default: []
+		type: Number,
+		default: 0
 	},
 
-	author: {},
+	author: {
+		type : String,
+		default : 'Anonymous'
+	},
 
 	comments: {
 		type: Array,

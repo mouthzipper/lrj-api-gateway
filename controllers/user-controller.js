@@ -69,36 +69,27 @@ module.exports = {
 
 	login: function (request, reply) {
 		var credentials = request.payload;
-		var query = normalizeCredentials(credentials);
 
-		if ( !query.email && !query.username ) {
-			return reply(Boom.badRequest('username or email is required'));
-		}
-
-		User.findOne(query, 'password username', function (err, user) {
+		User.findOne({ email: credentials.email }, 'password username', function (err, user) {
 			if (err) {
-				return reply(err);
+				return reply({ message: { email: 'Incorrect email' } }).code( 401 );
 			}
-
 			if (user) {
 				user.verifyPassword(credentials.password, function (err, response) {
-					if (err) {
-						return reply(err);
+					if (err || response === false ) {
+						return reply({ message: { password: 'Incorrect password' } }).code( 401 );
 					}
-
-					if ( response === true ) {
+					if( response === true ) {
 						user = user.toObject();
 						delete user.password;
 						// generate JWT
 						var token = createToken( user._id );
 
 						return reply( { token : token, user: user } );
-					} else {
-						return reply(Boom.unauthorized('login failed'));
-					}
+					} 
 				});
 			} else {
-					return reply(Boom.unauthorized('login failed'));
+				return reply({ message: { email: 'Incorrect email' } }).code( 401 );
 			}
 		});
 	}

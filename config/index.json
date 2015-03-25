@@ -5,6 +5,8 @@
 		},
 		"jwt": {
 			"privateKey": "BbZJjyoXAdr8BUZuiKKARWimKfrSmQ6fv8kZ7OFfc"
-		}
+		},
+
+		"GOOGLE_SECRET": "YyqJbNMCIuhCkOOpqjtq9_ya"
 	}
 }

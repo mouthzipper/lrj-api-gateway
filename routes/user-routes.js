@@ -73,7 +73,7 @@ module.exports = [
 			tags: ['api', 'user', 'login'],
 			validate: {
 				payload: {
-					username: Joi.string().description('The username of the user').required(),
+					email: Joi.string().description('The email of the user').required(),
 					password: Joi.string().description('The password of the user').required()
 				}
 			},
